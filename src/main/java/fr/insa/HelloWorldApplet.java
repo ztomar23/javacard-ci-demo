@@ -43,7 +43,7 @@ public class HelloWorldApplet extends Applet {
 
     private void sendHelloWorld(APDU apdu) {
         byte[] buffer = apdu.getBuffer();
-        Util.arrayCopyNonAtomic(HELLO_WORLD, (short)0, buffer, (short)0, HELLO_WORLD_LEN);
+        Util.arrayCopyNonAtomic(HELLO_WORLD, (short)0, buffer, (short)0, HELLO_WORLD_LEN)
         apdu.setOutgoingAndSend((short)0, HELLO_WORLD_LEN);
     }
 }
