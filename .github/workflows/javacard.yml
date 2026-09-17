@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -13,6 +17,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: java
 
       - name: Install system dependencies
         run: |
@@ -44,3 +53,14 @@ jobs:
         run: |
           chmod +x scripts/run_tests.sh
           ./scripts/run_tests.sh
+
+      - name: CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Trivy SCA scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'HIGH,CRITICAL'
+          ignore-unfixed: true
