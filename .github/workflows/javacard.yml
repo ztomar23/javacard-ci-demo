@@ -22,6 +22,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: java
+          build-mode: manual
 
       - name: Install system dependencies
         run: |
